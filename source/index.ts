@@ -3,6 +3,7 @@ import {parse as parseUrl} from 'url'; // eslint-disable-line node/no-deprecated
 import pMemoize from 'p-memoize';
 import filenamify from 'filenamify';
 import unusedFilename from 'unused-filename';
+
 import path = require('path');
 import fs = require('fs');
 import EventEmitter = require('events');

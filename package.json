@@ -60,6 +60,7 @@
 		"date-fns": "^2.2.1",
 		"filenamify": "^3.0.0",
 		"filenamify-url": "^1.0.0",
+		"got": "^11.5.2",
 		"lodash.template": "^4.0.1",
 		"log-symbols": "^3.0.0",
 		"make-dir": "^3.0.0",
@@ -71,7 +72,6 @@
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.4.0",
 		"@types/cookie": "^0.3.2",
-		"@types/filenamify-url": "^1.0.1",
 		"@types/lodash.template": "^4.4.5",
 		"@types/node": "^12.7.5",
 		"@types/pify": "^3.0.2",

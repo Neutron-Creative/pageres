@@ -1,5 +1,5 @@
 'use strict';
-import cheerio from "cheerio";
+import {cheerio} from "cheerio";
 import got from "got";
 
 const types = {
