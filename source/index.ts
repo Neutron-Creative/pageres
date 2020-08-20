@@ -9,15 +9,17 @@ import EventEmitter = require('events');
 import arrayUniq = require('array-uniq');
 import arrayDiffer = require('array-differ');
 import dateFns = require('date-fns');
-import getRes = require('get-res');
 import logSymbols = require('log-symbols');
 import makeDir = require('make-dir');
 import captureWebsite = require('capture-website');
 import viewportList = require('viewport-list');
 import template = require('lodash.template');
 import plur = require('plur');
+
 // @ts-ignore
 import filenamifyUrl = require('filenamify-url'); // TODO: Update filenamifyUrl and fix the import after https://github.com/sindresorhus/filenamify-url/issues/4 is resolved.
+
+const w3counter = require('./w3counter');
 
 // TODO: Move this to `type-fest`
 type Mutable<ObjectType> = { -readonly [KeyType in keyof ObjectType]: ObjectType[KeyType] };
@@ -66,7 +68,7 @@ interface Stats {
 
 export type Screenshot = Buffer & { filename: string };
 
-const getResMem = pMemoize(getRes);
+const getResMem = pMemoize(w3counter('res'));
 // @ts-ignore
 const viewportListMem = pMemoize(viewportList);
 
