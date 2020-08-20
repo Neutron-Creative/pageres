@@ -52,7 +52,6 @@ export default class Pageres extends EventEmitter {
     dest(directory: Destination): this;
     run(): Promise<Screenshot[]>;
     successMessage(): void;
-    private resolution;
     private viewport;
     private save;
     private create;

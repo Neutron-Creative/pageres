@@ -26,7 +26,7 @@ const Pageres = require('pageres');
 		.src('data:text/html,<h1>Awesome!</h1>', ['1024x768'])
 		.dest(__dirname)
 		.run();
-		
+
 	console.log('Finished generating screenshots!');
 })();
 ```
@@ -183,8 +183,6 @@ Type: `string[]`
 Use a `<width>x<height>` notation or a keyword.
 
 A keyword is a version of a device from [this list](https://github.com/kevva/viewport-list/blob/master/data.json).
-
-You can also pass in the `w3counter` keyword to use the ten most popular resolutions from [w3counter](http://www.w3counter.com/globalstats.php).
 
 #### options
 

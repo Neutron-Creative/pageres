@@ -20,8 +20,6 @@ import plur = require('plur');
 // @ts-ignore
 import filenamifyUrl = require('filenamify-url'); // TODO: Update filenamifyUrl and fix the import after https://github.com/sindresorhus/filenamify-url/issues/4 is resolved.
 
-const w3counter = require('./w3counter');
-
 // TODO: Move this to `type-fest`
 type Mutable<ObjectType> = { -readonly [KeyType in keyof ObjectType]: ObjectType[KeyType] };
 
@@ -69,7 +67,6 @@ interface Stats {
 
 export type Screenshot = Buffer & { filename: string };
 
-const getResMem = pMemoize(w3counter('res'));
 // @ts-ignore
 const viewportListMem = pMemoize(viewportList);
 
@@ -116,7 +113,7 @@ export default class Pageres extends EventEmitter {
 			return this._source;
 		}
 
-		if (!(typeof url === 'string' && url.length > 0)) {
+		if (!(url.length > 0)) {
 			throw new TypeError('URL required');
 		}
 
@@ -138,7 +135,7 @@ export default class Pageres extends EventEmitter {
 			return this._destination;
 		}
 
-		if (!(typeof directory === 'string' && directory.length > 0)) {
+		if (!(directory.length > 0)) {
 			throw new TypeError('Directory required');
 		}
 
@@ -158,10 +155,6 @@ export default class Pageres extends EventEmitter {
 			const keywords = arrayDiffer(source.sizes, sizes);
 
 			this.urls.push(source.url);
-
-			if (sizes.length === 0 && keywords.includes('w3counter')) {
-				return this.resolution(source.url, options);
-			}
 
 			if (keywords.length > 0) {
 				return this.viewport({url: source.url, sizes, keywords}, options);
@@ -198,13 +191,6 @@ export default class Pageres extends EventEmitter {
 		};
 
 		console.log(`\n${logSymbols.success} Generated ${screenshots} ${words.screenshots} from ${urls} ${words.urls} and ${sizes} ${words.sizes}`);
-	}
-
-	private async resolution(url: string, options: Options): Promise<void> {
-		for (const item of await getResMem() as Array<{ item: string }>) {
-			this.sizes.push(item.item);
-			this.items.push(await this.create(url, item.item, options));
-		}
 	}
 
 	private async viewport(viewport: Viewport, options: Options): Promise<void> {

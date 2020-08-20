@@ -19,9 +19,7 @@ const template = require("lodash.template");
 const plur = require("plur");
 // @ts-ignore
 const filenamifyUrl = require("filenamify-url"); // TODO: Update filenamifyUrl and fix the import after https://github.com/sindresorhus/filenamify-url/issues/4 is resolved.
-const w3counter = require('./w3counter');
 const writeFile = util_1.promisify(fs.writeFile);
-const getResMem = p_memoize_1.default(w3counter('res'));
 // @ts-ignore
 const viewportListMem = p_memoize_1.default(viewportList);
 class Pageres extends EventEmitter {
@@ -44,7 +42,7 @@ class Pageres extends EventEmitter {
         if (url === undefined) {
             return this._source;
         }
-        if (!(typeof url === 'string' && url.length > 0)) {
+        if (!(url.length > 0)) {
             throw new TypeError('URL required');
         }
         if (!(Array.isArray(sizes) && sizes.length > 0)) {
@@ -57,7 +55,7 @@ class Pageres extends EventEmitter {
         if (directory === undefined) {
             return this._destination;
         }
-        if (!(typeof directory === 'string' && directory.length > 0)) {
+        if (!(directory.length > 0)) {
             throw new TypeError('Directory required');
         }
         this._destination = directory;
@@ -69,9 +67,6 @@ class Pageres extends EventEmitter {
             const sizes = arrayUniq(source.sizes.filter(/./.test, /^\d{2,4}x\d{2,4}$/i));
             const keywords = arrayDiffer(source.sizes, sizes);
             this.urls.push(source.url);
-            if (sizes.length === 0 && keywords.includes('w3counter')) {
-                return this.resolution(source.url, options);
-            }
             if (keywords.length > 0) {
                 return this.viewport({ url: source.url, sizes, keywords }, options);
             }
@@ -99,12 +94,6 @@ class Pageres extends EventEmitter {
             urls: plur('url', urls)
         };
         console.log(`\n${logSymbols.success} Generated ${screenshots} ${words.screenshots} from ${urls} ${words.urls} and ${sizes} ${words.sizes}`);
-    }
-    async resolution(url, options) {
-        for (const item of await getResMem()) {
-            this.sizes.push(item.item);
-            this.items.push(await this.create(url, item.item, options));
-        }
     }
     async viewport(viewport, options) {
         for (const item of await viewportListMem(viewport.keywords)) {
