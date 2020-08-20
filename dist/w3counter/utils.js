@@ -8,7 +8,7 @@ const types = {
     'Screen Resolutions': 'res'
 };
 exports.types = Object.keys(types).map(x => types[x]);
-exports.load = () => got_1.default('www.w3counter.com/globalstats.php').then(res => {
+exports.load = () => got_1.default('https://www.w3counter.com/globalstats.php').then(res => {
     const $ = cheerio_1.cheerio.load(res.body);
     const stats = {};
     $('th').each((i, x) => {

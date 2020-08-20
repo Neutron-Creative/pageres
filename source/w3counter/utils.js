@@ -10,7 +10,7 @@ const types = {
 
 exports.types = Object.keys(types).map(x => types[x]);
 
-exports.load = () => got('www.w3counter.com/globalstats.php').then(res => {
+exports.load = () => got('https://www.w3counter.com/globalstats.php').then(res => {
 	const $ = cheerio.load(res.body);
 	const stats = {};
 
