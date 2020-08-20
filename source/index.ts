@@ -1,11 +1,11 @@
 import {promisify} from 'util';
 import {parse as parseUrl} from 'url'; // eslint-disable-line node/no-deprecated-api
-import path = require('path');
-import fs = require('fs');
-import EventEmitter = require('events');
 import pMemoize from 'p-memoize';
 import filenamify from 'filenamify';
 import unusedFilename from 'unused-filename';
+import path = require('path');
+import fs = require('fs');
+import EventEmitter = require('events');
 import arrayUniq = require('array-uniq');
 import arrayDiffer = require('array-differ');
 import dateFns = require('date-fns');
@@ -20,7 +20,7 @@ import plur = require('plur');
 import filenamifyUrl = require('filenamify-url'); // TODO: Update filenamifyUrl and fix the import after https://github.com/sindresorhus/filenamify-url/issues/4 is resolved.
 
 // TODO: Move this to `type-fest`
-type Mutable<ObjectType> = {-readonly [KeyType in keyof ObjectType]: ObjectType[KeyType]};
+type Mutable<ObjectType> = { -readonly [KeyType in keyof ObjectType]: ObjectType[KeyType] };
 
 const writeFile = promisify(fs.writeFile);
 
@@ -30,7 +30,7 @@ export interface Options {
 	readonly crop?: boolean;
 	readonly css?: string;
 	readonly script?: string;
-	readonly cookies?: ReadonlyArray<string | {[key: string]: string}>;
+	readonly cookies?: ReadonlyArray<string | { [key: string]: string }>;
 	readonly filename?: string;
 	readonly incrementalName?: boolean;
 	readonly selector?: string;
@@ -40,7 +40,7 @@ export interface Options {
 	readonly scale?: number;
 	readonly format?: string;
 	readonly userAgent?: string;
-	readonly headers?: {[key: string]: string};
+	readonly headers?: { [key: string]: string };
 	readonly transparent?: boolean;
 }
 
@@ -64,7 +64,7 @@ interface Stats {
 	screenshots?: number;
 }
 
-export type Screenshot = Buffer & {filename: string};
+export type Screenshot = Buffer & { filename: string };
 
 const getResMem = pMemoize(getRes);
 // @ts-ignore
@@ -198,14 +198,14 @@ export default class Pageres extends EventEmitter {
 	}
 
 	private async resolution(url: string, options: Options): Promise<void> {
-		for (const item of await getResMem() as Array<{item: string}>) {
+		for (const item of await getResMem() as Array<{ item: string }>) {
 			this.sizes.push(item.item);
 			this.items.push(await this.create(url, item.item, options));
 		}
 	}
 
 	private async viewport(viewport: Viewport, options: Options): Promise<void> {
-		for (const item of await viewportListMem(viewport.keywords) as Array<{size: string}>) {
+		for (const item of await viewportListMem(viewport.keywords) as Array<{ size: string }>) {
 			this.sizes.push(item.size);
 			viewport.sizes.push(item.size);
 		}
@@ -266,7 +266,13 @@ export default class Pageres extends EventEmitter {
 			scaleFactor: options.scale === undefined ? 1 : options.scale,
 			type: options.format === 'jpg' ? 'jpeg' : 'png',
 			userAgent: options.userAgent,
-			headers: options.headers
+			headers: options.headers,
+			launchOptions: {
+				args: [
+					'--no-sandbox',
+					'--disable-setuid-sandbox'
+				]
+			}
 		};
 
 		if (options.username && options.password) {

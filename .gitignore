@@ -4,3 +4,8 @@ yarn.lock
 coverage
 dist
 localhost*.png
+.vim
+.idea
+.eclipse
+.atom
+.vscode
