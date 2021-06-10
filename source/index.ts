@@ -16,7 +16,6 @@ import captureWebsite = require('capture-website');
 import viewportList = require('viewport-list');
 import template = require('lodash.template');
 import plur = require('plur');
-
 // @ts-ignore
 import filenamifyUrl = require('filenamify-url'); // TODO: Update filenamifyUrl and fix the import after https://github.com/sindresorhus/filenamify-url/issues/4 is resolved.
 
